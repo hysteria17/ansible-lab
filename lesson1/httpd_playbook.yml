@@ -1,0 +1,37 @@
+---
+- name: httpd playbook lesson1 task1
+  hosts: nodes
+  user: ansible
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+  - name: install httpd
+    package: name=httpd
+  - name: run httpd
+    service: 
+      name: httpd 
+      enabled: true
+      state: started
+  - name: check httpd state
+    service_facts:
+  - debug:
+      var: ansible_facts.services["httpd.service"].state
+  - name: create index.html
+    copy:
+      dest: /var/www/html/index.html
+      content: Welcome to my web server
+  - name: install firewalld
+    package: name=firewalld
+  - name: run firewalld service
+    service:
+      name: firewalld
+      state: started
+  - name: apply firewall settings
+    firewalld:
+      zone: public
+      service: http
+      state: enabled
+      permanent: yes
+      immediate: yes
+...

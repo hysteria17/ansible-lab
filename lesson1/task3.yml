@@ -1,0 +1,21 @@
+---
+- name: httpd playbook lesson1 task1
+  hosts: nodes
+  user: ansible
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+  - name: Changing net.ifnames in grub file
+    lineinfile:
+      path: /etc/default/grub
+      state: present
+      regexp: (^GRUB_CMDLINE_LINUX=\".*?)(\s{{ item }}=\d+)(.*\")$|(^GRUB_CMDLINE_LINUX=\".*)(\")$
+      line: '\g<1>\g<4> {{ item }}=0\g<3>\g<5>' 
+      backrefs: yes
+    loop:
+      - net.ifnames
+      - biosdevname 
+  - name: Saving new grub configuration
+    command: grub2-mkconfig -o /boot/grub2/grub.cfg
+...
