@@ -1,0 +1,21 @@
+---
+- name: Playbook for creating users
+  hosts: nodes
+  user: ansible
+  become: yes
+  become_method: sudo
+  become_user: root
+  vars_files:
+    - group_vars/vault.yml
+  tasks:
+    - name: Creating users
+      user:
+        state: present
+        create_home: yes
+        name: "{{ item.name }}"
+        comment: "{{ item.name }}@example.com"
+        password: "{{ item.password | password_hash('sha512') }}"
+        update_password: on_create
+      loop: "{{ users }}"
+...
+

@@ -1,0 +1,12 @@
+---
+include_vars: 
+  - name: vault.yml
+users:
+  - name: alice
+    password: "{{ vault_alice }}"
+  - name: bob
+    password: "{{ vault_bob }}"
+  - name: carol
+    password: "{{ vault_carol }}"
+...
+
