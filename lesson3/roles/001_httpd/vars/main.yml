@@ -1,0 +1,8 @@
+---
+  index_path: "/var/www/html/index.html"
+  webserver: httpd
+  firewall: firewalld
+  protocol: http
+  zone: public
+...
+# vars file for 001_httpd

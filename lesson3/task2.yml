@@ -1,0 +1,8 @@
+---
+- name: vsftpd playbook
+  hosts: nodes
+  
+  roles:
+    - role: 002_vsftp
+      when: ansible_distribution == "CentOS"
+...

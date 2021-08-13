@@ -1,0 +1,34 @@
+---
+# tasks file for 001_httpd
+- name: install {{ webserver }}
+  package:
+    name: "{{ webserver }}"
+    state: present
+- name: run {{ webserver }}
+  service:
+    name: "{{ webserver }}"
+    enabled: true
+    state: started
+  notify: 
+    - check httpd state
+- name: create index.html
+  template:
+    src: index.j2
+    dest: "{{ index_path }}"
+- name: install {{ firewall }}
+  package: 
+    name: "{{ firewall }}"
+    state: present
+- name: run {{ firewall }} service
+  service:
+    name: "{{ firewall }}"
+    state: started
+- name: apply firewall settings
+  firewalld:
+    zone: "{{ zone }}"
+    service: "{{ protocol }}"
+    state: enabled
+    permanent: yes
+  notify:
+    - Restart firewall
+...

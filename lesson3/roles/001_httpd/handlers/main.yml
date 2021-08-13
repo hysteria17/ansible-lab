@@ -1,0 +1,11 @@
+---
+  - name: check httpd state
+    service_facts:
+  - debug:
+      var: ansible_facts.services["httpd.service"].state
+  - name: Restart firewall
+    service:
+      name: "{{ firewall }}"
+      state: restarted
+...
+# handlers file for 001_httpd

@@ -1,0 +1,11 @@
+---
+- name: Reload ftp
+  service:
+    name: "{{ ftpserver }}"
+    state: restarted
+- name: Reload firewall
+  service:
+    name: "{{ firewall }}"
+    state: restarted
+...
+# handlers file for 002_vsftp
